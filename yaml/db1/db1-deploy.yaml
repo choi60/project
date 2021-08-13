@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db1-deploy
+  namespace: project
+  labels:
+    app: db1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db1
+  template:
+    metadata:
+      labels:
+        app: db1
+    spec:
+      containers:
+      - name: db1-container
+        image: myregistry.images.io:30000/mysql_db1:0.0 
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: db1-storage
+          mountPath: /var/lib/mysql 
+        #envFrom:
+        #- configMapRef:
+            #name: mysql-env-cm 
+        #- secretRef:
+            #name: mysql-secret
+        
+      volumes:
+      - name: db1-storage
+        persistentVolumeClaim:
+          claimName: db1-pvc
+  
+

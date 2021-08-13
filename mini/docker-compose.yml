@@ -1,0 +1,43 @@
+version: "3.0"
+services:
+  db1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: myregistry.kpc.or.kr:5000/db1:toy
+    volumes:
+    - /root/docker_project/mini/db_data1:/var/lib/mysql
+  
+  db2:
+    build:
+      context: .
+      dockerfile: Dockerfile2
+    image: myregistry.kpc.or.kr:5000/db2:toy
+    volumes:
+    - /root/docker_project/mini/db_data2:/var/lib/mysql
+
+  pymain:
+    build:
+      context: .
+      dockerfile: Dockerfile5
+    image: myregistry.kpc.or.kr:5000/pymain:0.0
+    ports:
+    - "80:8000"
+  
+  api1:
+    build:
+      context: .
+      dockerfile: Dockerfile3
+    image: myregistry.kpc.or.kr:5000/api1:0.0
+    ports:
+    - "8081:8000"
+
+  api2:
+    build:
+      context: .
+      dockerfile: Dockerfile4
+    image: myregistry.kpc.or.kr:5000/api2:0.0
+    ports:
+    - "8082:8000"
+
+

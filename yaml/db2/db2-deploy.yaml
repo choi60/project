@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db2-deploy
+  namespace: project
+  labels:
+    app: db2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db2
+  template:
+    metadata:
+      labels:
+        app: db2
+    spec:
+      containers:
+      - name: db2-container
+        image: myregistry.images.io:30000/mysql_db2:0.0 
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: db2-storage
+          mountPath: /var/lib/mysql 
+        #envFrom:
+        #- configMapRef:
+            #name: mysql-env-cm 
+        #- secretRef:
+            #name: mysql-secret
+        
+      volumes:
+      - name: db2-storage
+        persistentVolumeClaim:
+          claimName: db2-pvc
+  
+
